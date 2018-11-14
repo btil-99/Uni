@@ -1,5 +1,3 @@
-//Name: Birute Tilvikaite, ID: B72690, Login: cobt3, Assignement title: CW1 A5SearchEngine
-
 var contents = [ "Loughborough University offers degree programmes and world class research.", "An alternative University", "Yet another University"]
 var pages = ["|www.lboro.ac.uk|Loughborough University offers degree programmes and word class research.","!www.xyz.ac.uk!An alternative University" , "%www%Yet another University"]
 var web = [ {url : "www.lboro.ac.uk", content: "Loughborough University offers degree programmes and world class research." } , {url: "www.xyz.ac.uk", content:"An alternative University"}, {url:"www", content: "Yet another Univeristy"}]
