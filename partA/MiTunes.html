@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>MiTunes</title>
+  <script type="text/javascript" src="music.js"></script>
+
+  <script type="text/javascript">	
+	//Birute Tilvikaite
+	//B726960
+	//cobt3
+  
+    function clickKey(){
+		var letters = document.getElementsByName("letter");
+		//loops around each of the 'letters' buttons, and whenever a letter is clicked on, the function inputLetters is performed. 
+		for (var i=0; i < letters.length; i++) { 
+			letters[i].onclick=inputLetters; 
+		}
+    }
+    
+    function inputLetters() {
+		//everytime a key is clicked, it changes each letter to lower case and inputs it into the search box
+		var value = document.getElementById("text1").value;
+		//to lowerCase since search is case insensitive
+		var b = this.value.toLowerCase();
+		document.getElementById("text1").value+=b;
+		//runs the searchAlbum function, giving track names that match the text inside the search textbox
+		searchAlbum();
+    }
+
+    
+    function back() {
+		//removes the last character from the search textbox everytime the back button is clicked
+		var value = document.getElementById("text1").value;
+		document.getElementById("text1").value = value.substr(0, value.length - 1);
+		//runs the searchAlbum function, giving track names that match the text inside the search textbox
+		searchAlbum();
+    }
+    
+    function reset(){
+		//removes everything from the the seach textbox everytime the reset button is clicked
+		document.getElementById('text1').value= '';
+		//runs the searchAlbum function, giving track names that match the text inside the search textbox
+		searchAlbum();
+    }
+    
+    function space(){
+		//inserts a space everytime the space button is clicked
+		var value = document.getElementById("text1").value;
+		document.getElementById('text1').value=value+' ';
+		//runs the searchAlbum function, giving track names that match the text inside the search textbox
+		searchAlbum();
+    }
+	
+	function index(string, pattern){
+		//to lowerCase since search is case insensitive
+		string = string.toLowerCase();
+		//checks if pattern length is greater then 1, since search has to start from second character
+			if (pattern.length>1){
+			//checks whether pattern exists in string
+				if(string.indexOf(pattern) != -1){
+					return true;
+				}
+			}
+			return false;
+	}	
+		
+	function searchAlbum(){
+		var pattern = document.getElementById('text1').value;
+		//empty array for results
+		var results = [];
+		//loops through albums array
+		for(var i=0; i<albums.length; i++){
+			var track=albums[i].tracks;
+			//loops through tracks in albums array
+			for(var j=0; j<track.length; j++){
+				var title = track[j].title;
+				var lyrics = track[j].lyrics;
+				//if pattern searched is found in either track title or track lyrics, the title of the track is pushed at the end of results array
+				if(index(title,pattern) || index(lyrics,pattern)){
+					results.push(title);
+				}
+			}
+		}
+		//the track titles of found searches are returned in a select option 
+		var str="<select id='select2' size='"+ results.length + "' onchange='albumChange();'>";
+		for(var i=0; i<results.length; i++){
+			str+="<option>"+results[i]+"</option>";
+		}
+		str+="</select>"
+	    document.getElementById('tablecell-tracks').innerHTML=str;
+	}
+	
+	function createAlbumTitles(){
+		//the function creates a albumtitles array holding the title of each album
+		var albumtitles=[];
+		//loops through the albums array
+		for (var i=0; i<albums.length; i++){
+			//new variable for album titles
+			var string=albums[i].title;
+			//adds each of the album titles at the end of an empty array
+			albumtitles.push(string);
+		}
+	  //returns an array holding all the album titles
+		return albumtitles;
+    }
+	
+    function createAlbumSelect(){
+		//This function changes the array of albums from the previous function into a select form 
+		var albumtitles=createAlbumTitles();
+		//if one of the album titles are selected, the next function is performed 
+		var str ="<select id='select1' size='" + albumtitles.length + "' onchange='createTrackSelect(this.value);'>";
+		//loops through each of the album titles and creates a select option for each of the album title
+		for(var i=0; i<albumtitles.length; i++){
+			str+="<option>"+albumtitles[i]+"</option>";
+		}
+		str+="</select>"
+		//inserts the select options into the first table cell 
+		document.getElementById('tablecell-albums').innerHTML=str;
+    }
+	
+	function createTrackSelect(string){
+		//Produces select options for track names based on the album selected from the previous options
+		//loops through albums array
+		for(var i=0; i<albums.length; i++){
+			//checks for the selected album and creates new variable for tracks inside the album
+			if(albums[i].title==string){
+				var track=albums[i].tracks;
+			break;
+			}
+		}
+		//creates select options for the tracks for the selected album, when an option is selected, the next function is performed
+		var str="<select id='select2' size='"+ track.length + "' onchange='albumChange();'>";
+		for(var i=0; i<track.length; i++){
+			str+="<option>"+track[i].title+"</option>";
+		}
+		str+="</select>"
+		//inserts the select options into the second table cell
+		document.getElementById('tablecell-tracks').innerHTML=str;	
+	} 
+    
+	function albumChange() {
+		//The function gives details of the track selected from the selected album
+		//such as album name, track name, artwork, audio and lyrics
+		var selectedtrack = document.getElementById('select2').value;
+		//runs loop through albums array
+		for (var i = 0; i < albums.length; i++){
+			var currentarray = albums[i].tracks;
+			//loops through tracks
+			for (var j = 0; j < currentarray.length; j++) {
+				//checks for the selected track and gets details of the track 
+				if (currentarray[j].title == selectedtrack){
+					var resultalbum = albums[i].title;
+					var resulttrack = currentarray[j].title;
+					var resultartwork = albums[i].artwork;
+					var resultlyrics = currentarray[j].lyrics;
+					var resultmp3 = currentarray[j].mp3;
+				break;
+				}
+			}
+		}
+		//outputs album name and track name of the selected track in album
+		var string ="<div class='titles'> Albums: "; 
+		string+= resultalbum + "</div>";
+		string+= "<div class='titles'> Track: ";
+		string+= resulttrack + "</div>";
+		//outputs the artwork for the selected track
+		string+= "<div><img src='./artwork/" + resultartwork + ".jpg' ></div>";
+		//outputs audio for the selected track
+		string+="<div>"
+		string+= "<audio id='audio' controls='controls'>";
+		string+= "<source src='./audio/BBC/" + resultalbum + "/" + resultmp3 + "' type='audio/mpeg'>";
+		string+= "<source src='./audio/BBC/" + resultalbum + "/" + resultmp3 + "' type='audio/wav'>";
+		string+= "Your browser does not support the audio element."
+		string+= "</audio>";
+		string+= "</div>"
+		//outputs lyrics for the selected track 
+		string+= "<div>Lyrics: ";
+		string+= resultlyrics;
+		string+="</div>"
+		
+		//returns details of the selected track of the album in the third cell of the table
+		document.getElementById('Track Details').innerHTML=string;
+	}
+	
+	</script>
+  <style>
+    #table1 {
+	  margin-left:auto;
+      margin-right:auto;
+	  width: 90%;
+      table-layout: fixed;
+    }
+    
+	body {
+        margin: 0px;
+		width: 100%
+    }
+    
+    .buttons {
+	  width:4%;
+	  font-size: 160%;
+	}
+    
+	.titles {
+	  font-size: 160%;
+	}
+	
+    #back{
+      width:7%;
+      font-size: 160%;
+
+    }
+	
+    #space{
+      width:9%;
+      font-size: 160%;
+    }
+	
+    #reset{
+      width:7%;
+      font-size: 160%;
+    }
+	
+    #text1{
+      width:20%;
+      font-size:160%;
+    }
+	
+    #search{
+      font-size: 200%;
+	  color:#ffffff;
+    }
+	
+	#select1{
+	  height: 100%;
+	  width: 100%;
+	  font-size: x-large;
+	  
+	}
+	
+    #select2{
+	  height: 100%;
+	  width: 100%;
+	  font-size: x-large;
+	  
+	}
+	
+	#tablecell-albums{
+	  text-align: center;
+	  margin:0 60px;
+	}
+	
+	#tablecell-tracks{
+	  text-align: center;
+	  margin:0 60px;
+	}
+	
+	.headings{
+	  position: absolute; 
+	  top: 0;
+	}
+	  
+  </style>
+  </head>
+  <body onload='clickKey(); createAlbumSelect();'>
+    <table border = '1' id="table1">
+      <tr height="385px">
+        <td bgcolor = "#438c71">
+          <h1 class="headings">Albums</h1>
+		  <div id='tablecell-albums'></div>
+        </td>
+        <td bgcolor ="#56ad8d">
+		<h1 class="headings">Tracks</h1>
+		<div id='tablecell-tracks'></div>
+		</td>
+        <td id = "Track Details" bgcolor="#72d8b3"><h1 align="center" class="headings">Details</h1>
+        </td>
+      </tr>
+      <tr height="200px">
+        <td colspan="3" align ="center" valign="middle" bgcolor="#02422b">
+          <div id="keyboard">
+            <div>
+              <label id='search'>Search: </label><input type="text" id="text1" readonly="readonly">
+            </div>
+            <div id="row1">
+              <input type = 'button' class ='buttons' name="letter" value = 'Q'>
+              <input type = 'button' class ='buttons' name="letter" value = 'W'>
+              <input type = 'button' class ='buttons' name="letter" value = 'E'>
+              <input type = 'button' class ='buttons' name="letter" value = 'R'>
+              <input type = 'button' class ='buttons' name="letter" value = 'T'>
+              <input type = 'button' class ='buttons' name="letter" value = 'Y'>
+              <input type = 'button' class ='buttons' name="letter" value = 'U'>
+              <input type = 'button' class ='buttons' name="letter" value = 'I'>
+              <input type = 'button' class ='buttons' name="letter" value = 'O'>
+              <input type = 'button' class ='buttons' name="letter" value = 'P'>
+            </div>
+	        <div id="row2">
+	          <input type = 'button' class ='buttons' name="letter" value = 'A'>
+              <input type = 'button' class ='buttons' name="letter" value = 'S'>
+              <input type = 'button' class ='buttons' name="letter" value = 'D'>
+              <input type = 'button' class ='buttons' name="letter" value = 'F'>
+              <input type = 'button' class ='buttons' name="letter" value = 'G'>
+              <input type = 'button' class ='buttons' name="letter" value = 'H'>
+              <input type = 'button' class ='buttons' name="letter" value = 'J'>
+              <input type = 'button' class ='buttons' name="letter" value = 'K'>
+              <input type = 'button' class ='buttons' name="letter" value = 'L'>
+            </div>
+            <div id="row3">
+	          <input type = 'button' class ='buttons' name="letter" value = 'Z'>
+              <input type = 'button' class ='buttons' name="letter" value = 'X'>
+              <input type = 'button' class ='buttons' name="letter" value = 'C'>
+              <input type = 'button' class ='buttons' name="letter" value = 'V'>
+              <input type = 'button' class ='buttons' name="letter" value = 'B'>
+              <input type = 'button' class ='buttons' name="letter" value = 'N'>
+              <input type = 'button' class ='buttons' name="letter" value = 'M'>
+            </div>
+	        <div id="row4">
+	          <input type='button' id='back' value='←' onclick='back();'>
+              <input type='button' id='space' value='space' onclick='space();'>
+              <input type='button' id='reset' value='reset' onclick='reset();'>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
