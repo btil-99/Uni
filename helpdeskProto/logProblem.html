@@ -1,0 +1,207 @@
+<html>
+<head>
+<style type="text/css">
+	body{
+		background-color:#c4c4c4;
+		
+	}
+	form {
+	    
+		font-family:"Trebuchet MS", Helvetica, sans-serif;
+	}
+	h1 {
+		font-family:"Arial Black", Gadget, sans-serif;
+	}
+	
+	.b {
+		text-align:center;
+		font size="32";
+	}
+	
+	.container{
+			width: 55%;
+			height: 520px;
+			padding: 20px 30px;
+			border-radius: 15px;
+			background-color: #fff;
+			box-shadow:0 0 10px 0 #000;
+			margin: 10px auto;
+			text-align: center;
+	}
+	
+	.topDiv{
+		background-color: #111;
+		height: 50px;
+		top: 0;
+		left: 0;
+		right: 0;
+		position: fixed;
+	}
+	.LogOutBtn{
+		display: inline-block;
+		font-size: 14px;
+		line-height: 120%;
+		color: #fff;
+		background-color: transparent;
+		border: 1px solid #fff;
+		padding: 10px 12px;
+		border-radius: 4px;
+		text-decoration: none;
+		cursor: pointer;
+		transition: .5s ease;
+		backface-visibility: hidden;
+		margin-top:5px;
+		margin-left: 10px;
+		position: absolute;
+		right: 0px;
+		margin-right: 25px;
+		font-family:"Trebuchet MS", Helvetica, sans-serif;
+	}
+
+	.LogOutBtn:hover{
+		opacity: 0.3;
+
+	}
+
+	.Btns{
+		display: inline-block;
+		font-size: 14px;
+		line-height: 120%;
+		color: #fff;
+		background-color: transparent;
+		border: 1px solid #fff;
+		padding: 10px 12px;
+		border-radius: 4px;
+		text-decoration: none;
+		cursor: pointer;
+		transition: .5s ease;
+		backface-visibility: hidden;
+		margin-top:5px;
+		margin-left: 10px;
+		font-family:"Trebuchet MS", Helvetica, sans-serif;
+	}
+
+	.Btns:hover{
+		opacity: 0.3;
+	}
+	
+	
+	.logo{
+		margin-top:5px;
+			width: 40%;
+			height: 80%;
+		}
+	
+		.buttonDiv {
+			margin: 10px auto;
+		}
+	
+    #lastname { margin-left: 10px; margin-right:50px;}
+    #firstname { margin-left: 10px; margin-right:50px;}
+	#time{ margin-left: 10px; margin-right:50px;}
+	#date{ margin-left: 10px; margin-right:50px; margin-bottom:20px;}
+	#serialNo{ margin-left: 10px; margin-right:50px;}
+	#OS{ margin-left: 10px; margin-right:50px; margin-bottom:20px;}
+	#Submit{}
+	
+	
+		
+		
+</style>
+<script type = "text/javascript">
+	function loginPage(){
+		location="login.html";
+	}
+	function menuPage(){
+		location="menu.html";
+	}
+</script>
+</head>
+	
+	
+<body>
+	<div class="topDiv">
+		<a href="#" class="Btns" name="MenuBtn" onclick="menuPage();">Menu</a>
+		<a href="#" class="LogOutBtn" name="LogOutBtn" onclick="loginPage();">Log Out</a>
+	</div>
+	<div class="specialistsList">
+	    <span class="initialbarlabel">First name</span>
+	    <div class="initialbarall letter active">All</div>
+	</div>
+	
+	<h1 align="center">Log Problem</h1>
+	
+	
+	<div class="container">
+	<form action="">
+		<h4 align="left">Problem ID: #239</h4>
+		<h3 class="center">Caller Details:</h3>
+	  
+	  <label for="firstname">
+	  First name:
+  		</label>
+	  <input type="text" id="firstname" value="">
+	  <label for = "lastname"> 
+		  Surname:
+	  </label>
+	  <input type="text" id="lastname" value="">
+		<h3 class="center">Helpdesk Operator Details:</h3>
+	  
+	  <label for="firstname">
+	  First name:
+  		</label>
+	  <input type="text" id="firstname" value="">
+	  <label for = "lastname"> 
+		  Surname:
+	  </label>
+	  <input type="text" id="lastname" value="">
+	  <h3 class="center">Problem Details:</h3>
+	  <label for = Date>
+		Date:
+	</label>
+	<input id="date" type="date" name="date" value="2017-06-05">
+	  <label for = Time>
+		Time:
+	</label>
+	<input id="time" type="time" name="time" value="12:38"><br>
+  <label for="serialNo">
+  Serial Number:
+		</label>
+  <input type="text" id="serialNo" value="">
+  
+  <label for = "OS"> 
+	  OS:
+  </label>
+  <select id="OS">
+    <option value="Windows">Windows</option>
+    <option value="MacOS">MacOS</option>
+    <option value="Linux">Linux</option>
+  </select>
+  <label for = "Problem Type"> 
+	  Problem Type:
+  </label>
+  <select id="ProblemType">
+    <option value="Hardware">Hardware</option>
+    <option value="Software">Software</option>
+    <option value="Network">Network</option>
+    <option value="Other">Other</option>
+  </select><br>
+  <label for="reason">
+  Problem Description:
+		</label>
+  <input type="text" id="reason" value=""><br>
+  <label for="notes">
+  Notes:
+		</label><br>
+		<textarea rows="6" cols="80">
+		
+		</textarea><br>
+		
+  	  <div class="buttonDiv" align="center">
+	  <button style ="width: 100px ; height:30px"  id="Submit" value="Submit" font-size: 30px>Submit</button>
+  </div>
+	</form> 
+</div>
+</body>
+
+</html>
